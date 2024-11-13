@@ -12,4 +12,4 @@ RUN poetry install --no-root
 
 COPY . /app
 
-CMD ["poetry","run", "asset_processing_service"]
+CMD ["poetry","run", "asset-processing-service"]
