@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 export default function ProjectsPage() {
@@ -18,7 +19,9 @@ export default function ProjectsPage() {
       <h1>Projects</h1>
       <ul>
         {projects.map((project) => (
-          <li key={project.id}>{project.name}</li>
+          <li key={project.id}>
+            <Link href={`/project/${project.id}`}>{project.name}</Link>
+          </li>
         ))}
       </ul>
     </div>
