@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,17 @@ export default function Sidebar() {
   };
   return (
     <div>
-      {isMobile && <Button variant="ghost">{renderMenuIcon(isOpen)}</Button>}
+      {isMobile && (
+        <Button
+          variant="ghost"
+          className={cn(
+            "fixed top-4 left-4 z-50 bg-transparent hover:bg-gray-100/50 backdrop-blur-sm",
+            isOpen && "top-4 left-4"
+          )}
+        >
+          {renderMenuIcon(isOpen)}
+        </Button>
+      )}
       <div>
         <h1>AI Marketing Platform</h1>
       </div>
