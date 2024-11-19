@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { getDesktopClasses } from "../../utils/sidebarUtils";
+import { getMobileClasses } from "../../utils/sidebarUtils";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +29,7 @@ export default function Sidebar() {
   const renderMenuIcon = (isOpen: boolean) => {
     return isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />;
   };
+
   return (
     <div>
       {isMobile && (
@@ -41,9 +44,18 @@ export default function Sidebar() {
           {renderMenuIcon(isOpen)}
         </Button>
       )}
-      <div>
-        <h1>AI Marketing Platform</h1>
-      </div>
+      {(!isMobile || isOpen) && (
+        <div
+          className={cn(
+            "bg-gray-100 flex flex-col h-screen transition-all duration-300 overflow-y-auto",
+            getMobileClasses(isMobile, isOpen),
+            getDesktopClasses(isMobile, isCollapsed)
+          )}
+        >
+          <h1>AI Marketing Platform</h1>
+        </div>
+      )}
+      <div></div>
     </div>
   );
 }
