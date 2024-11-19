@@ -13,7 +13,11 @@ export default function Sidebar() {
   useEffect(() => {}, []);
 
   const toggleSidebar = () => {
-    setIsOpen(!isOpen);
+    if (isMobile) {
+      setIsOpen((prev) => !prev);
+    } else {
+      setIsCollapsed((prev) => !prev);
+    }
   };
 
   const handleOutsideClick = () => {
@@ -28,6 +32,7 @@ export default function Sidebar() {
       {isMobile && (
         <Button
           variant="ghost"
+          onClick={toggleSidebar}
           className={cn(
             "fixed top-4 left-4 z-50 bg-transparent hover:bg-gray-100/50 backdrop-blur-sm",
             isOpen && "top-4 left-4"
