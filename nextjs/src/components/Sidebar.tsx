@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { Menu, X } from "lucide-react";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,7 @@ export default function Sidebar() {
   };
 
   const renderMenuIcon = (isOpen: boolean) => {
-    return isOpen ? "X" : "Menu";
+    return isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />;
   };
   return (
     <div>
