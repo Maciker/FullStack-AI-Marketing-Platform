@@ -7,5 +7,13 @@ export default function Sidebar() {
 
   useEffect(() => {}, []);
 
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOutsideClick = () => {
+    setIsOpen(false);
+  };
+
   return <div className="w-28 bg-white text-black h-screen">Sidebar</div>;
 }
