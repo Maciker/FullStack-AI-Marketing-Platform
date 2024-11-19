@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 
 export default function Sidebar() {
@@ -15,5 +17,11 @@ export default function Sidebar() {
     setIsOpen(false);
   };
 
-  return <div className="w-28 bg-white text-black h-screen">Sidebar</div>;
+  return (
+    <div>
+      <div>
+        <h1>AI Marketing Platform</h1>
+      </div>
+    </div>
+  );
 }
