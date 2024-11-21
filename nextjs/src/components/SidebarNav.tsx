@@ -1,7 +1,7 @@
-import { Home, LayoutDashboard, Settings } from "lucide-react";
 import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { Home, LayoutDashboard, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 
@@ -26,21 +26,20 @@ function SidebarNav({ isMobile, isCollapsed }: SidebarNavProps) {
       label: "Projects",
       icon: Home,
       isActive: (pathname) =>
-        pathname === "projects" || pathname.includes("/project/"),
+        pathname === "/projects" || pathname.startsWith("/project/"),
     },
     {
       href: "/templates",
       label: "Templates",
       icon: LayoutDashboard,
       isActive: (pathname) =>
-        pathname === "templates" || pathname.includes("/template/"),
+        pathname === "/templates" || pathname.startsWith("/template/"),
     },
     {
       href: "/settings",
       label: "Settings",
       icon: Settings,
-      isActive: (pathname) =>
-        pathname === "settings" || pathname.includes("/settings/"),
+      isActive: (pathname) => pathname === "/settings",
     },
   ];
 
@@ -48,11 +47,13 @@ function SidebarNav({ isMobile, isCollapsed }: SidebarNavProps) {
     <div className="space-y4 overflow-hidden mb-auto">
       {navItems.map((item) => (
         <Button
-          key={item.label}
+          key={item.href}
+          variant="ghost"
+          asChild
           className={cn(
             "w-full justify-start hover:text-main hover:bg-gray-200 flex items-center text-lg font-medium",
-            !isMobile && isCollapsed && "justify-center p-z",
-            item.isActive(pathname) && "bg-gray-200text-main"
+            !isMobile && isCollapsed && "justify-center p-2",
+            item.isActive(pathname) && "bg-gray-200 text-main"
           )}
         >
           <Link href={item.href}>

@@ -1,19 +1,60 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getDesktopClasses } from "../../utils/sidebarUtils";
-import { getMobileClasses } from "../../utils/sidebarUtils";
 import SidebarNav from "./SidebarNav";
+import SidebarToggle from "./SidebarToggle";
 
-export default function Sidebar() {
-  const [isOpen, setIsOpen] = useState(false);
+const MOBILE_WINDOW_WIDTH_LIMIT = 1024;
+
+function Sidebar() {
   const [isMobile, setIsMobile] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {}, []);
+  //  Handle Resize
+  useEffect(() => {
+    const handleResize = () => {
+      const calculatedIsMobile = window.innerWidth < MOBILE_WINDOW_WIDTH_LIMIT;
+      setIsMobile(calculatedIsMobile);
+      if (calculatedIsMobile) {
+        setIsCollapsed(false);
+      } else {
+        setIsOpen(false);
+      }
+    };
+
+    handleResize();
+    setIsMounted(true);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target as Node)
+      ) {
+        if (isMobile && isOpen) {
+          setIsOpen(false);
+        }
+      }
+    };
+
+    window.addEventListener("mousedown", handleOutsideClick);
+
+    return () => {
+      window.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [isMobile, isOpen]);
 
   const toggleSidebar = () => {
     if (isMobile) {
@@ -23,16 +64,17 @@ export default function Sidebar() {
     }
   };
 
-  const handleOutsideClick = () => {
-    setIsOpen(false);
-  };
-
   const renderMenuIcon = (isOpen: boolean) => {
     return isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />;
   };
 
+  if (!isMounted) {
+    return null;
+  }
+
   return (
     <div>
+      {/* Mobile X toggle in the left side of screen  */}
       {isMobile && (
         <Button
           variant="ghost"
@@ -45,12 +87,25 @@ export default function Sidebar() {
           {renderMenuIcon(isOpen)}
         </Button>
       )}
+
+      {/* Store all components in nav */}
       {(!isMobile || isOpen) && (
         <div
+          ref={sidebarRef}
           className={cn(
             "bg-gray-100 flex flex-col h-screen transition-all duration-300 overflow-y-auto",
-            getMobileClasses(isMobile, isOpen),
-            getDesktopClasses(isMobile, isCollapsed)
+            // MOBILE STYLES
+            !isMobile
+              ? ""
+              : `fixed inset-y-0 left-0 z-40 w-64 transform ${
+                  isOpen ? "translate-x-0" : "translate-x-full"
+                }`,
+            // DESKTOP STYLES
+            isMobile
+              ? ""
+              : isCollapsed
+              ? "w-28 h-screen sticky top-0"
+              : "w-64 h-screen sticky top-0"
           )}
         >
           <div
@@ -59,16 +114,26 @@ export default function Sidebar() {
               isMobile ? "pt-16" : "pt-10"
             )}
           >
-            <h1 className="text-4xl font-bold mb-10">AI Marketing Platform</h1>
+            {!isCollapsed && (
+              <h1 className="text-4xl font-bold mb-10">
+                AI Marketing Platform
+              </h1>
+            )}
+
             <SidebarNav isMobile={isMobile} isCollapsed={isCollapsed} />
           </div>
-          {!isMobile &&
-            true
-            //<SidebarToggle isCollapsed={isCollapsed} toggle={toggleSidebar} />
-          }
+
+          <div>{/* TODO: User profile from clerk */}</div>
+          {!isMobile && (
+            <SidebarToggle
+              isCollapsed={isCollapsed}
+              toggleSidebar={toggleSidebar}
+            />
+          )}
         </div>
       )}
-      <div></div>
     </div>
   );
 }
+
+export default Sidebar;
