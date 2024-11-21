@@ -1,62 +1,83 @@
-import type { Config } from "tailwindcss";
+/* Reset overscroll behavior */
+html,
+body {
+  @apply overscroll-y-none;
+}
 
-export default {
-    darkMode: ["class"],
-    content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-  	extend: {
-  		colors: {
-  			background: 'hsl(var(--background))',
-  			foreground: 'hsl(var(--foreground))',
-  			card: {
-  				DEFAULT: 'hsl(var(--card))',
-  				foreground: 'hsl(var(--card-foreground))'
-  			},
-  			popover: {
-  				DEFAULT: 'hsl(var(--popover))',
-  				foreground: 'hsl(var(--popover-foreground))'
-  			},
-  			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
-  				foreground: 'hsl(var(--primary-foreground))'
-  			},
-  			secondary: {
-  				DEFAULT: 'hsl(var(--secondary))',
-  				foreground: 'hsl(var(--secondary-foreground))'
-  			},
-  			muted: {
-  				DEFAULT: 'hsl(var(--muted))',
-  				foreground: 'hsl(var(--muted-foreground))'
-  			},
-  			accent: {
-  				DEFAULT: 'hsl(var(--accent))',
-  				foreground: 'hsl(var(--accent-foreground))'
-  			},
-  			destructive: {
-  				DEFAULT: 'hsl(var(--destructive))',
-  				foreground: 'hsl(var(--destructive-foreground))'
-  			},
-  			border: 'hsl(var(--border))',
-  			input: 'hsl(var(--input))',
-  			ring: 'hsl(var(--ring))',
-  			chart: {
-  				'1': 'hsl(var(--chart-1))',
-  				'2': 'hsl(var(--chart-2))',
-  				'3': 'hsl(var(--chart-3))',
-  				'4': 'hsl(var(--chart-4))',
-  				'5': 'hsl(var(--chart-5))'
-  			}
-  		},
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
-  		}
-  	}
-  },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Define custom CSS variables and base styles */
+@layer base {
+  :root {
+    /* Color Variables */
+    --background: 0 0% 100%;
+    --foreground: 210 100% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 210 100% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 100% 12%;
+    --primary: 210 98% 60%; /* #359efe */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 50% 90%;
+    --secondary-foreground: 210 100% 12%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 210 40% 40%;
+    --accent: 210 98% 90%;
+    --accent-foreground: 210 98% 60%;
+    --destructive: 0 85% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 20% 80%;
+    --input: 210 20% 80%;
+    --ring: 210 98% 60%;
+
+    /* Sizing and Radius */
+    --radius: 0.5rem;
+
+    /* Hover States */
+    --hover-background: 210 98% 60%;
+    --hover-foreground: 0 0% 100%;
+  }
+
+  /* Dark Mode Overrides */
+  .dark {
+    --background: 210 50% 10%;
+    --foreground: 210 20% 90%;
+    --card: 210 50% 10%;
+    --card-foreground: 210 20% 90%;
+    --popover: 210 50% 10%;
+    --popover-foreground: 210 20% 90%;
+    --primary: 210 98% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 50% 20%;
+    --secondary-foreground: 210 20% 90%;
+    --muted: 210 50% 20%;
+    --muted-foreground: 210 20% 70%;
+    --accent: 210 50% 30%;
+    --accent-foreground: 210 20% 90%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 210 50% 20%;
+    --input: 210 50% 20%;
+    --ring: 210 98% 60%;
+    --hover-background: 210 98% 60%;
+    --hover-foreground: 0 0% 100%;
+  }
+
+  /* Body Styles */
+  body {
+    @apply bg-background text-foreground;
+    @apply selection:bg-main selection:text-white;
+  }
+
+  /* Accordion Styles */
+  .accordion-trigger[data-state="open"] {
+    text-decoration: underline;
+  }
+
+  .accordion-trigger[data-state="closed"] {
+    text-decoration: none;
+  }
+}
