@@ -52,7 +52,7 @@ export default function Sidebar() {
             getDesktopClasses(isMobile, isCollapsed)
           )}
         >
-          <h1>AI Marketing Platform</h1>
+          <h1 className="text-4xl font-bold mb-10">AI Marketing Platform</h1>
         </div>
       )}
       <div></div>
