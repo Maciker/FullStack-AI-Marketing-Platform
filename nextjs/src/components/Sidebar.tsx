@@ -6,6 +6,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getDesktopClasses } from "../../utils/sidebarUtils";
 import { getMobileClasses } from "../../utils/sidebarUtils";
+import SidebarNav from "./SidebarNav";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -52,7 +53,19 @@ export default function Sidebar() {
             getDesktopClasses(isMobile, isCollapsed)
           )}
         >
-          <h1 className="text-4xl font-bold mb-10">AI Marketing Platform</h1>
+          <div
+            className={cn(
+              "flex flex-col flex-grow p-6",
+              isMobile ? "pt-16" : "pt-10"
+            )}
+          >
+            <h1 className="text-4xl font-bold mb-10">AI Marketing Platform</h1>
+            <SidebarNav isMobile={isMobile} isCollapsed={isCollapsed} />
+          </div>
+          {!isMobile &&
+            true
+            //<SidebarToggle isCollapsed={isCollapsed} toggle={toggleSidebar} />
+          }
         </div>
       )}
       <div></div>
