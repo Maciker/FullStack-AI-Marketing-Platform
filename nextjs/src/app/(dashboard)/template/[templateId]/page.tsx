@@ -1,11 +1,10 @@
 import React from "react";
 
 interface TemplatePageProps {
-  params: {
-    templateId: string;
-  };
+  params: Promise<{ templateId: string }>;
 }
 
-export default function TemplatePage({ params }: TemplatePageProps) {
-  return <div>Template Page {params.templateId} </div>;
+export default async function TemplatePage(props: TemplatePageProps) {
+  const { templateId } = await props.params;
+  return <div>Template Page {templateId} </div>;
 }

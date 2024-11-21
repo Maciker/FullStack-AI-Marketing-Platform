@@ -1,11 +1,14 @@
+import { notFound } from "next/navigation";
 import React from "react";
 
 interface ProjectPageProps {
-  params: {
-    projectId: string;
-  };
+  params: Promise<{ projectId: string }>;
 }
 
-export default function ProjectPage({ params }: ProjectPageProps) {
-  return <div>Project Page {params.projectId}</div>;
+export default async function ProjectPage(props: ProjectPageProps) {
+  const { projectId } = await props.params;
+  if (projectId != "123") {
+    return notFound();
+  }
+  return <div>ProjectPage: {projectId}</div>;
 }
